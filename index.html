@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bisri Mustofa — Web Developer & Tech Enthusiast</title>
+  <meta name="description" content="Building digital experiences with code and creativity. Focusing on automation tools and AI technology.">
+  <meta name="theme-color" content="#0B0D10">
+
+  <meta property="og:title" content="Bisri Mustofa">
+  <meta property="og:description" content="Building digital experiences with code and creativity. Focusing on automation tools and AI technology.">
+  <meta property="og:image" content="assets/og.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bosbiss.com">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    // Apply saved theme before paint to avoid a flash.
+    try {
+      var t = localStorage.getItem('bb-theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
+</head>
+<body>
+
+  <!-- Logo mark, traced from assets/Logo B — Mark-selection.png -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="mark" viewBox="0 0 396 460">
+      <rect class="mark-ink" x="0" y="0" width="86" height="460"/>
+      <path class="mark-ink" d="M144 0H230A136.5 136.5 0 0 1 230 273H187V186H230A50 50 0 0 0 230 86H144Z"/>
+      <path class="mark-ink" d="M187 186H258A136.5 136.5 0 0 1 258 459H144V373H258A50 50 0 0 0 258 273H187Z"/>
+      <circle class="mark-dot" cx="136.5" cy="229.5" r="32"/>
+    </symbol>
+  </svg>
+
+  <!-- The "stem": a vertical rule with a dot that travels as you scroll -->
+  <div class="stem" aria-hidden="true">
+    <span class="stem-dot" id="stemDot"></span>
+  </div>
+
+  <header class="nav">
+    <a href="#top" class="brand" aria-label="Bisri Mustofa, back to top">
+      <svg class="brand-mark"><use href="#mark"/></svg>
+      <span class="brand-name">Bisri Mustofa</span>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#product">Product</a>
+      <a href="#projects">Projects</a>
+      <a href="#articles">Articles</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+      <span class="theme-toggle-dot"></span>
+      <span class="mono theme-toggle-label">dark</span>
+    </button>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <p class="mono eyebrow reveal">WEB DEVELOPER &nbsp;/&nbsp; TECH ENTHUSIAST &nbsp;/&nbsp; IT DI LAMPUNG CERDAS</p>
+      <h1 class="reveal">
+        Building digital<br>
+        experiences with<br>
+        <span class="muted">code and creativity.</span>
+      </h1>
+      <div class="hero-foot reveal">
+        <p class="lede">
+          Focusing on automation tools and AI technology. I am an experienced web developer
+          with expertise in developing effective and efficient digital systems.
+        </p>
+        <a class="status" href="#contact">
+          <span class="status-dot"></span>
+          <span class="mono">Open for custom work</span>
+        </a>
+      </div>
+      <svg class="hero-mark" aria-hidden="true"><use href="#mark"/></svg>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="section-head reveal">
+        <span class="mono index">01</span>
+        <h2>About</h2>
+      </div>
+      <div class="split">
+        <div class="prose reveal">
+          <p>
+            I'm Bisri Mustofa, a web developer and tech enthusiast based in Lampung, Indonesia,
+            currently working in IT at Lampung Cerdas. I build digital experiences with code and
+            creativity, with a focus on automation tools and applied AI.
+          </p>
+          <p>
+            My work ranges from company websites and internal tools to workflow automation and
+            chatbots. Whatever the shape, the goal is the same: digital systems that are
+            effective, efficient, and actually used.
+          </p>
+        </div>
+        <dl class="spec reveal">
+          <div><dt class="mono">Location</dt><dd>Lampung, Indonesia</dd></div>
+          <div><dt class="mono">Role</dt><dd>IT at Lampung Cerdas</dd></div>
+          <div><dt class="mono">Focus</dt><dd>Automation tools &amp; AI technology</dd></div>
+          <div><dt class="mono">Stack</dt><dd>Laravel, Tailwind CSS, Filament, n8n</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- WHAT I DO -->
+    <section class="section" id="services">
+      <div class="section-head reveal">
+        <span class="mono index">02</span>
+        <h2>What I do</h2>
+      </div>
+      <div class="cards">
+        <article class="card reveal">
+          <span class="mono card-index">A</span>
+          <h3>Web development</h3>
+          <p>Company profiles, dashboards, and internal tools built with Laravel, Tailwind CSS, and Filament.</p>
+        </article>
+        <article class="card reveal">
+          <span class="mono card-index">B</span>
+          <h3>Workflow automation</h3>
+          <p>Custom tools and n8n workflows that connect WhatsApp, Google Sheets, and the services you already use.</p>
+        </article>
+        <article class="card reveal">
+          <span class="mono card-index">C</span>
+          <h3>Applied AI</h3>
+          <p>Chatbots and assistants powered by models like Gemini and Mistral, wired into real day-to-day processes.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- PRODUCT -->
+    <section class="section" id="product">
+      <div class="section-head reveal">
+        <span class="mono index">03</span>
+        <h2>Digital products</h2>
+      </div>
+      <p class="section-lede reveal">Produk aktif dari Bisri Mustofa, lengkap dengan harga dan link pembelian.</p>
+      <ul class="work">
+        <li class="reveal">
+          <a href="https://lynk.id/kubis/2k3xk2l6v385" class="work-row" target="_blank" rel="noopener">
+            <span class="mono work-num">01</span>
+            <span class="work-main">
+              <span class="work-title">[Ebook] Automation Social Media</span>
+              <span class="work-desc">Ebook reading that learns how to automate our social media.</span>
+            </span>
+            <span class="mono work-meta">Rp 30.000 · Buy now</span>
+            <span class="work-arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      </ul>
+      <div class="callout reveal">
+        <p class="callout-title">Butuh produk atau automation custom?</p>
+        <p class="callout-text">Saya bisa bantu membuat tool, workflow automation, atau digital product sesuai kebutuhan Anda.</p>
+        <a class="mono callout-link" href="mailto:bisrimustofa312@gmail.com">Contact ↗</a>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <div class="section-head reveal">
+        <span class="mono index">04</span>
+        <h2>Tools and live projects</h2>
+      </div>
+      <p class="section-lede reveal">Published projects with their stack, demo links, and repository links.</p>
+      <ul class="work">
+        <li class="reveal">
+          <a href="https://lampungcerdas.com/" class="work-row" target="_blank" rel="noopener">
+            <span class="mono work-num">01</span>
+            <span class="work-main">
+              <span class="work-title">Company Profile — PT Lampung Cerdas Mendunia</span>
+              <span class="work-desc">Build a company profile for PT Lampung Cerdas Mendunia.</span>
+              <span class="tags">
+                <span class="mono tag">Laravel</span>
+                <span class="mono tag">Tailwind CSS</span>
+                <span class="mono tag">Filament</span>
+              </span>
+            </span>
+            <span class="mono work-meta">2025 · Open demo</span>
+            <span class="work-arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ARTICLES -->
+    <section class="section" id="articles">
+      <div class="section-head reveal">
+        <span class="mono index">05</span>
+        <h2>Technical articles</h2>
+      </div>
+      <p class="section-lede reveal">Published writing about automation, web development, applied AI, and project notes.</p>
+      <ul class="posts">
+        <li class="reveal">
+          <a href="https://bosbiss.my.id/articles/chatbot-whatsapp-untuk-otomasi-catatan-keuangan-pribadi" class="post" target="_blank" rel="noopener">
+            <span class="mono post-date">2025.11</span>
+            <span class="post-main">
+              <span class="post-title">Membuat Chatbot WhatsApp untuk Otomasi Catatan Keuangan Pribadi</span>
+              <span class="post-desc">Membuat chatbot WhatsApp untuk membantu pencatatan keuangan pribadi dengan n8n, Gemini, Google Spreadsheet, dan Mistral AI.</span>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section contact" id="contact">
+      <div class="section-head reveal">
+        <span class="mono index">06</span>
+        <h2>Contact</h2>
+      </div>
+      <p class="contact-lede reveal">Looking for something custom? I can build specialized tools and solutions tailored to your specific technical needs.</p>
+      <a class="contact-email reveal" href="mailto:bisrimustofa312@gmail.com">bisrimustofa312@gmail.com</a>
+      <ul class="socials reveal">
+        <li><a href="https://github.com/bisbiss" class="mono" target="_blank" rel="noopener">GitHub ↗</a></li>
+        <li><a href="https://www.linkedin.com/in/bisrimustofa/" class="mono" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+        <li><a href="mailto:bisrimustofa312@gmail.com" class="mono">Email ↗</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <svg class="footer-mark" aria-hidden="true"><use href="#mark"/></svg>
+    <span class="mono">© 2026 BISRI MUSTOFA</span>
+    <span class="mono footer-right">BOSBISS.COM &nbsp;/&nbsp; LAMPUNG, ID</span>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
