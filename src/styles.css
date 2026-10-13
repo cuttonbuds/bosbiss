@@ -272,10 +272,11 @@ h1 {
 
 .hero-foot {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 40px;
-  margin-top: 48px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+  margin-top: 44px;
+  max-width: 56%;
 }
 
 .lede {
@@ -321,28 +322,10 @@ h1 {
   100% { transform: scale(1.6); opacity: 0; }
 }
 
-.hero-mark {
-  position: absolute;
-  right: -4%;
-  bottom: 8%;
-  width: min(34vw, 380px);
-  height: auto;
-  aspect-ratio: 396 / 460;
-  color: var(--fg);
-  opacity: .06;
-  pointer-events: none;
-}
-
-:root[data-theme="light"] .hero-mark { opacity: .05; }
-
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) .hero-mark { opacity: .05; }
-}
 
 @media (max-width: 899px) {
   .hero { min-height: auto; padding: 72px 0 80px; }
-  .hero-foot { flex-direction: column; align-items: flex-start; margin-top: 36px; }
-  .hero-mark { width: 44vw; right: -10%; bottom: 0; }
+  .hero-foot { margin-top: 36px; max-width: none; }
 }
 
 /* ---------- tentang ---------- */
@@ -602,3 +585,51 @@ h1 {
 
 .post-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .post-desc { color: var(--muted); font-size: 15px; }
+
+/* ---------- 3D logo stage (hero) ---------- */
+
+.hero-3d {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(38vw, 440px);
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-3d canvas { display: block; }
+
+.hero > *:not(.hero-3d) { position: relative; z-index: 1; }
+
+.hero-mark-fallback {
+  position: absolute;
+  inset: 12%;
+  width: 76%;
+  height: 76%;
+  color: var(--fg);
+  opacity: .08;
+}
+
+@media (max-width: 899px) {
+  .hero-3d {
+    position: relative;
+    top: auto;
+    right: auto;
+    transform: none;
+    width: min(70vw, 320px);
+    margin: 40px auto 0;
+  }
+}
+
+/* soft lime glow behind the 3D stage so the mark reads on both themes */
+.hero-3d::before {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%);
+  filter: blur(18px);
+  z-index: -1;
+}
