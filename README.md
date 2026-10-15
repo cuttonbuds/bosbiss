@@ -18,6 +18,10 @@ src/components/Logo3D.jsx  logo 3D: path SVG diekstrusi jadi mesh, animasi + par
 src/components/Hero.jsx    hero; memuat Logo3D secara lazy
 src/components/Sections.jsx About, What I do, Products, Projects, Articles, Contact
 src/components/Nav.jsx, Stem.jsx, Footer.jsx
+src/lib/config.js          URL + publishable key Supabase
+src/lib/useSiteContent.js  fetch konten live (1 RPC) + cache localStorage
+src/lib/supabase.js        client supabase-js (hanya dipakai dashboard)
+src/admin/                 dashboard: Admin.jsx, AuthForm, ProfileEditor, CollectionEditor, schema.js
 public/assets/             logo asli + turunan (favicon, apple-touch-icon, og.png)
 ```
 
@@ -43,6 +47,51 @@ Deploy folder `dist/` ke Vercel, Netlify, atau hosting statis lain.
   dibatasi 1.5 untuk layar HiDPI.
 - Font via Google Fonts dengan `preconnect` + `display=swap`.
 
+## Konten dinamis (Supabase)
+
+Project Supabase: `yzhlhuanxxcvvyjzzole` (https://yzhlhuanxxcvvyjzzole.supabase.co).
+
+Tabel di schema `public`:
+
+| Tabel | Isi |
+|---|---|
+| `profile` | satu baris: hero, about, intro tiap section, kontak, footer |
+| `services` | kartu "What I do" (key, title, description) |
+| `products` | produk digital (title, description, price_label, url) |
+| `projects` | proyek (title, description, tags[], year, url) |
+| `articles` | tulisan (title, description, url, published_on) |
+| `social_links` | tautan sosial (label, url) |
+| `admins` | daftar email yang boleh mengedit |
+
+Semua tabel koleksi punya `sort_order` dan `published`. RLS aktif:
+publik hanya bisa membaca baris `published`, dan hanya email di `admins`
+(dicek lewat fungsi `is_admin()`) yang bisa insert/update/delete.
+
+Situs publik membaca semua konten lewat satu RPC `get_site_content()` dengan
+`fetch` biasa (tanpa supabase-js), merender dulu dari cache/konten statis,
+lalu menukar ke data live. Mapping DB → komponen ada di `src/data/content.js`.
+
+### Dashboard admin
+
+Buka `/admin`. Login memakai Supabase Auth (email + password).
+
+1. Klik **Create account**, daftar dengan email yang ada di tabel `admins`
+   (saat ini `bisrimustofa312@gmail.com`), lalu konfirmasi lewat email.
+2. Sign in. Tab: Profile, What I do, Products, Projects, Articles, Social.
+3. Untuk menambah admin lain: `insert into public.admins (email) values ('...')`.
+
+Catatan pengaturan Supabase (Dashboard → Authentication):
+- Email confirmation aktif secara default. Bisa dimatikan di *Providers → Email*
+  kalau ingin langsung masuk tanpa konfirmasi.
+- SMTP bawaan dibatasi beberapa email per jam. Untuk produksi, pasang SMTP
+  sendiri di *Settings → Auth → SMTP*.
+- Tambahkan URL situs produksi ke *URL Configuration → Redirect URLs*
+  (mis. `https://bosbiss.com/admin`).
+
+Konfigurasi URL/key ada di `src/lib/config.js` (bisa di-override lewat
+`VITE_SUPABASE_URL` dan `VITE_SUPABASE_ANON_KEY`, lihat `.env.example`).
+`vercel.json` me-rewrite semua path ke `index.html` agar `/admin` bisa dibuka langsung.
+
 ## Konsep desain
 
 - **Stem + titik.** Logo B punya stem terpisah dengan titik lime. Motif ini jadi
@@ -58,8 +107,8 @@ Deploy folder `dist/` ke Vercel, Netlify, atau hosting statis lain.
 
 ## Mengubah konten
 
-Semua teks ada di `src/data/content.js`: hero, about (+ tabel spec), services,
-products (+ callout), projects (+ tags), articles, dan contact/socials.
+Konten diubah lewat dashboard `/admin` (tersimpan di Supabase). Salinan statis
+sebagai fallback first-paint ada di `src/data/content.js` (`staticContent`).
 
 Logo dipakai sebagai komponen `<Mark/>` (SVG hasil tracing dari
 `public/assets/Logo B — Mark-selection.png`). Path yang sama diekstrusi

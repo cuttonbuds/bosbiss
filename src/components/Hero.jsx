@@ -1,6 +1,6 @@
 import { lazy, Suspense, useRef, useMemo } from 'react';
 import Mark from './Mark.jsx';
-import { hero } from '../data/content.js';
+import { useContent } from '../lib/ContentContext.js';
 import { useInView, useIdle } from '../hooks.js';
 
 // three.js + react-three-fiber load in their own chunk, only after first paint.
@@ -15,28 +15,35 @@ function can3D() {
 }
 
 export default function Hero({ theme }) {
+  const { hero } = useContent();
   const stage = useRef(null);
   const inView = useInView(stage, '120px');
   const idle = useIdle();
   const ok = useMemo(can3D, []);
-  const [a, b, c] = hero.eyebrow;
+  const lines = hero.headline;
 
   return (
     <section className="hero" id="top">
       <p className="mono eyebrow reveal">
-        {a} &nbsp;/&nbsp; {b} &nbsp;/&nbsp; {c}
+        {hero.eyebrow.map((t, i) => (
+          <span key={t}>{i > 0 && <>&nbsp;&nbsp;/&nbsp;&nbsp;</>}{t}</span>
+        ))}
       </p>
       <h1 className="reveal">
-        Building digital<br />
-        experiences with<br />
-        <span className="muted">code and creativity.</span>
+        {lines.map((line, i) => (
+          <span key={line} className={i === lines.length - 1 && lines.length > 1 ? 'muted' : undefined}>
+            {line}{i < lines.length - 1 && <br />}
+          </span>
+        ))}
       </h1>
       <div className="hero-foot reveal">
         <p className="lede">{hero.lede}</p>
-        <a className="status" href="#contact">
-          <span className="status-dot" />
-          <span className="mono">{hero.status}</span>
-        </a>
+        {hero.status && (
+          <a className="status" href="#contact">
+            <span className="status-dot" />
+            <span className="mono">{hero.status}</span>
+          </a>
+        )}
       </div>
 
       <div className="hero-3d" ref={stage} aria-hidden="true">
