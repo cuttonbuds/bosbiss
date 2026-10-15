@@ -75,14 +75,19 @@ lalu menukar ke data live. Mapping DB → komponen ada di `src/data/content.js`.
 
 Buka `/admin`. Login memakai Supabase Auth (email + password).
 
-1. Klik **Create account**, daftar dengan email yang ada di tabel `admins`
-   (saat ini `bisrimustofa312@gmail.com`), lalu konfirmasi lewat email.
-2. Sign in. Tab: Profile, What I do, Products, Projects, Articles, Social.
-3. Untuk menambah admin lain: `insert into public.admins (email) values ('...')`.
+Tidak ada pendaftaran dari UI. Akun admin dibuat oleh pemilik situs di
+Supabase Dashboard → Authentication → Users → **Add user** (centang
+*Auto Confirm User*), dengan email yang ada di tabel `admins`
+(saat ini `bisrimustofa312@gmail.com`).
+
+1. Sign in dengan email + password tersebut.
+2. Tab: Profile, What I do, Products, Projects, Articles, Social.
+3. Untuk menambah admin lain: buat user-nya di Supabase, lalu
+   `insert into public.admins (email) values ('...')`.
+4. Disarankan matikan *Allow new users to sign up* di
+   Authentication → Providers → Email agar signup lewat API juga tertutup.
 
 Catatan pengaturan Supabase (Dashboard → Authentication):
-- Email confirmation aktif secara default. Bisa dimatikan di *Providers → Email*
-  kalau ingin langsung masuk tanpa konfirmasi.
 - SMTP bawaan dibatasi beberapa email per jam. Untuk produksi, pasang SMTP
   sendiri di *Settings → Auth → SMTP*.
 - Tambahkan URL situs produksi ke *URL Configuration → Redirect URLs*
