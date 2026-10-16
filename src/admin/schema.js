@@ -1,15 +1,21 @@
 // Field definitions that drive the dashboard forms.
-// type: text | textarea | tags | date | number | bool
+// type: text | textarea | tags | date | number | bool | image | file
 
 export const PROFILE_FIELDS = [
   { group: 'Hero' },
   { name: 'name', label: 'Name' },
+  { name: 'photo_url', label: 'Profile photo', type: 'image', hint: 'Square photo works best; shown in About' },
   { name: 'eyebrow', label: 'Eyebrow labels', type: 'tags', hint: 'Comma separated, shown above the headline' },
   { name: 'headline_1', label: 'Headline line 1' },
   { name: 'headline_2', label: 'Headline line 2' },
   { name: 'headline_3', label: 'Headline line 3', hint: 'Rendered in muted color' },
   { name: 'lede', label: 'Intro paragraph', type: 'textarea' },
   { name: 'status_text', label: 'Status pill', hint: 'Leave empty to hide' },
+
+  { group: 'Contact buttons' },
+  { name: 'whatsapp', label: 'WhatsApp number', hint: 'International format without +, e.g. 62812xxxxxxx. Leave empty to hide the button' },
+  { name: 'cv_url', label: 'CV / resume', type: 'file', hint: 'Upload a PDF or paste a link. Leave empty to hide the button' },
+  { name: 'email', label: 'Email' },
 
   { group: 'About' },
   { name: 'about_1', label: 'Paragraph 1', type: 'textarea' },
@@ -28,7 +34,6 @@ export const PROFILE_FIELDS = [
 
   { group: 'Contact & footer' },
   { name: 'contact_lede', label: 'Contact intro', type: 'textarea' },
-  { name: 'email', label: 'Email' },
   { name: 'footer_left', label: 'Footer left', hint: '© is replaced with © + current year' },
   { name: 'footer_right', label: 'Footer right' },
 ];
@@ -62,7 +67,9 @@ export const COLLECTIONS = [
     table: 'projects', label: 'Projects', titleField: 'title',
     fields: [
       { name: 'title', label: 'Title' },
-      { name: 'description', label: 'Description', type: 'textarea' },
+      { name: 'image_url', label: 'Thumbnail', type: 'image', hint: 'Screenshot of the project, 16:9 works best' },
+      { name: 'description', label: 'Short description', type: 'textarea' },
+      { name: 'details', label: 'Case study', type: 'textarea', hint: 'Optional. Problem, solution, result. Blank line = new paragraph' },
       { name: 'tags', label: 'Stack tags', type: 'tags', hint: 'Comma separated' },
       { name: 'year', label: 'Year', width: 'sm' },
       { name: 'url', label: 'Demo / repo link' },
@@ -76,6 +83,15 @@ export const COLLECTIONS = [
       { name: 'description', label: 'Summary', type: 'textarea' },
       { name: 'url', label: 'Link' },
       { name: 'published_on', label: 'Published on', type: 'date', width: 'sm' },
+      ...common,
+    ],
+  },
+  {
+    table: 'testimonials', label: 'Testimonials', titleField: 'author',
+    fields: [
+      { name: 'quote', label: 'Quote', type: 'textarea' },
+      { name: 'author', label: 'Author' },
+      { name: 'role', label: 'Role / company', hint: 'e.g. Owner, Toko Maju' },
       ...common,
     ],
   },

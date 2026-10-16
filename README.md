@@ -29,7 +29,7 @@ public/assets/             logo asli + turunan (favicon, apple-touch-icon, og.pn
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173
+npm run dev        # http://localhost:5174
 npm run build      # output ke dist/
 npm run preview    # cek hasil build
 ```
@@ -55,13 +55,18 @@ Tabel di schema `public`:
 
 | Tabel | Isi |
 |---|---|
-| `profile` | satu baris: hero, about, intro tiap section, kontak, footer |
+| `profile` | satu baris: hero, foto, WhatsApp, CV, about, intro tiap section, kontak, footer |
 | `services` | kartu "What I do" (key, title, description) |
 | `products` | produk digital (title, description, price_label, url) |
-| `projects` | proyek (title, description, tags[], year, url) |
+| `projects` | proyek (title, image_url, description, details/case study, tags[], year, url) |
 | `articles` | tulisan (title, description, url, published_on) |
+| `testimonials` | testimoni klien (quote, author, role) |
 | `social_links` | tautan sosial (label, url) |
 | `admins` | daftar email yang boleh mengedit |
+
+Section Products, Projects, Articles, dan Testimonials otomatis disembunyikan
+kalau tidak ada baris yang published. Tombol WhatsApp dan Download CV muncul
+hanya jika diisi di Profile.
 
 Semua tabel koleksi punya `sort_order` dan `published`. RLS aktif:
 publik hanya bisa membaca baris `published`, dan hanya email di `admins`
@@ -81,7 +86,9 @@ Supabase Dashboard → Authentication → Users → **Add user** (centang
 (saat ini `bisrimustofa312@gmail.com`).
 
 1. Sign in dengan email + password tersebut.
-2. Tab: Profile, What I do, Products, Projects, Articles, Social.
+2. Tab: Profile, What I do, Products, Projects, Articles, Testimonials, Social.
+   Foto profil, thumbnail proyek, dan CV bisa diunggah langsung dari form
+   (tersimpan di Storage bucket `media`, publik baca, admin tulis).
 3. Untuk menambah admin lain: buat user-nya di Supabase, lalu
    `insert into public.admins (email) values ('...')`.
 4. Disarankan matikan *Allow new users to sign up* di

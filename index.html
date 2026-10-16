@@ -6,12 +6,15 @@
   <title>Bisri Mustofa — Web Developer & Tech Enthusiast</title>
   <meta name="description" content="Building digital experiences with code and creativity. Focusing on automation tools and AI technology.">
   <meta name="theme-color" content="#0B0D10">
+  <link rel="canonical" href="https://www.bosbiss.com/">
 
-  <meta property="og:title" content="Bisri Mustofa">
+  <meta property="og:title" content="Bisri Mustofa — Web Developer & Tech Enthusiast">
   <meta property="og:description" content="Building digital experiences with code and creativity. Focusing on automation tools and AI technology.">
-  <meta property="og:image" content="/assets/og.png">
+  <meta property="og:image" content="https://www.bosbiss.com/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://bosbiss.com">
+  <meta property="og:url" content="https://www.bosbiss.com/">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -22,8 +25,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Bisri Mustofa",
+    "url": "https://www.bosbiss.com/",
+    "jobTitle": "Web Developer",
+    "worksFor": { "@type": "Organization", "name": "Lampung Cerdas" },
+    "address": { "@type": "PostalAddress", "addressRegion": "Lampung", "addressCountry": "ID" },
+    "sameAs": ["https://github.com/bisbiss", "https://www.linkedin.com/in/bisrimustofa/"]
+  }
+  </script>
+
   <script>
-    // Apply saved theme before paint to avoid a flash.
+    // Mark JS as available (reveal animations only apply then) and apply the saved theme before paint.
+    document.documentElement.classList.add('js');
     try {
       var t = localStorage.getItem('bb-theme');
       if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);

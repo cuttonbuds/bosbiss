@@ -4,7 +4,7 @@
 
 export const nav = [
   { href: '#about', label: 'About' },
-  { href: '#product', label: 'Product' },
+  { href: '#products', label: 'Products' },
   { href: '#projects', label: 'Projects' },
   { href: '#articles', label: 'Articles' },
   { href: '#contact', label: 'Contact' },
@@ -13,6 +13,9 @@ export const nav = [
 export const staticContent = {
   name: 'Bisri Mustofa',
   email: 'bisrimustofa312@gmail.com',
+  whatsapp: '',
+  cvUrl: '',
+  photoUrl: '',
   hero: {
     eyebrow: ['WEB DEVELOPER', 'TECH ENTHUSIAST', 'IT DI LAMPUNG CERDAS'],
     headline: ['Building digital', 'experiences with', 'code and creativity.'],
@@ -49,7 +52,7 @@ export const staticContent = {
   projects: {
     lede: 'Published projects with their stack, demo links, and repository links.',
     items: [
-      { title: 'Company Profile — PT Lampung Cerdas Mendunia', desc: 'Build a company profile for PT Lampung Cerdas Mendunia.', tags: ['Laravel', 'Tailwind CSS', 'Filament'], meta: '2025 · Open demo', href: 'https://lampungcerdas.com/' },
+      { title: 'Company Profile — PT Lampung Cerdas Mendunia', desc: 'Build a company profile for PT Lampung Cerdas Mendunia.', tags: ['Laravel', 'Tailwind CSS', 'Filament'], meta: '2025 · Open demo', href: 'https://lampungcerdas.com/', image: '', details: '' },
     ],
   },
   articles: {
@@ -58,6 +61,7 @@ export const staticContent = {
       { date: '2025.11', title: 'Membuat Chatbot WhatsApp untuk Otomasi Catatan Keuangan Pribadi', desc: 'Membuat chatbot WhatsApp untuk membantu pencatatan keuangan pribadi dengan n8n, Gemini, Google Spreadsheet, dan Mistral AI.', href: 'https://bosbiss.my.id/articles/chatbot-whatsapp-untuk-otomasi-catatan-keuangan-pribadi' },
     ],
   },
+  testimonials: [],
   contact: {
     lede: 'Looking for something custom? I can build specialized tools and solutions tailored to your specific technical needs.',
     socials: [
@@ -78,6 +82,9 @@ export function fromDb(json) {
   return {
     name: p.name || s.name,
     email: p.email || s.email,
+    whatsapp: (p.whatsapp || '').replace(/\D/g, ''),
+    cvUrl: p.cv_url || '',
+    photoUrl: p.photo_url || '',
     hero: {
       eyebrow: p.eyebrow && p.eyebrow.length ? p.eyebrow : s.hero.eyebrow,
       headline: [p.headline_1, p.headline_2, p.headline_3].filter(Boolean),
@@ -101,7 +108,8 @@ export function fromDb(json) {
       lede: p.projects_lede || '',
       items: (json.projects || []).map((r) => ({
         title: r.title, desc: r.description, tags: r.tags || [], href: r.url,
-        meta: [r.year, 'Open demo'].filter(Boolean).join(' · '),
+        image: r.image_url || '', details: r.details || '',
+        meta: [r.year, r.url ? 'Open demo' : ''].filter(Boolean).join(' · '),
       })),
     },
     articles: {
@@ -110,6 +118,7 @@ export function fromDb(json) {
         date: fmtDate(r.published_on), title: r.title, desc: r.description, href: r.url,
       })),
     },
+    testimonials: (json.testimonials || []).map((r) => ({ quote: r.quote, author: r.author, role: r.role || '' })),
     contact: {
       lede: p.contact_lede || '',
       socials: (json.social_links || []).map((r) => ({ label: r.label, href: r.url })),

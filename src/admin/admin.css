@@ -127,3 +127,10 @@
   .row-actions { width: 100%; justify-content: flex-end; }
   .admin-user { display: none; }
 }
+
+/* uploads */
+.field-wide { grid-column: 1 / -1; }
+.upload { display: flex; flex-direction: column; gap: 8px; }
+.upload-preview { width: 160px; max-height: 120px; object-fit: cover; border: 1px solid var(--line-strong); border-radius: 6px; }
+.upload-actions { display: flex; gap: 8px; }
+.upload-btn { cursor: pointer; }

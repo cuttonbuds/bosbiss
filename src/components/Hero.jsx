@@ -14,8 +14,10 @@ function can3D() {
   return !!(c.getContext('webgl2') || c.getContext('webgl'));
 }
 
+// The hero is above the fold: it renders immediately, with no reveal animation,
+// so the first paint never depends on JavaScript timing.
 export default function Hero({ theme }) {
-  const { hero } = useContent();
+  const { hero, whatsapp, cvUrl, email } = useContent();
   const stage = useRef(null);
   const inView = useInView(stage, '120px');
   const idle = useIdle();
@@ -24,26 +26,34 @@ export default function Hero({ theme }) {
 
   return (
     <section className="hero" id="top">
-      <p className="mono eyebrow reveal">
+      <p className="mono eyebrow">
         {hero.eyebrow.map((t, i) => (
           <span key={t}>{i > 0 && <>&nbsp;&nbsp;/&nbsp;&nbsp;</>}{t}</span>
         ))}
       </p>
-      <h1 className="reveal">
+      <h1>
         {lines.map((line, i) => (
           <span key={line} className={i === lines.length - 1 && lines.length > 1 ? 'muted' : undefined}>
             {line}{i < lines.length - 1 && <br />}
           </span>
         ))}
       </h1>
-      <div className="hero-foot reveal">
+      <div className="hero-foot">
         <p className="lede">{hero.lede}</p>
-        {hero.status && (
-          <a className="status" href="#contact">
-            <span className="status-dot" />
-            <span className="mono">{hero.status}</span>
-          </a>
-        )}
+        <div className="hero-cta">
+          {hero.status && (
+            <a className="status" href="#contact">
+              <span className="status-dot" />
+              <span className="mono">{hero.status}</span>
+            </a>
+          )}
+          {whatsapp ? (
+            <a className="btn-cta" href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener">WhatsApp ↗</a>
+          ) : (
+            <a className="btn-cta" href={`mailto:${email}`}>Email me</a>
+          )}
+          {cvUrl && <a className="btn-cta btn-cta-ghost" href={cvUrl} target="_blank" rel="noopener">Download CV ↗</a>}
+        </div>
       </div>
 
       <div className="hero-3d" ref={stage} aria-hidden="true">
