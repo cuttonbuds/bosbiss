@@ -11,7 +11,7 @@ index.html                 shell HTML (meta, font, script tema anti-flash)
 src/main.jsx               entry React
 src/App.jsx                susunan halaman
 src/styles.css             styling + token warna brand
-src/hooks.js               useTheme, useReveal, useActiveSection, useInView, useIdle
+src/hooks.js               useTheme, useActiveSection, useInView, useIdle
 src/data/content.js        SEMUA teks/konten situs
 src/components/Mark.jsx    logo SVG (path hasil tracing) + konstanta path
 src/components/Logo3D.jsx  logo 3D: path SVG diekstrusi jadi mesh, animasi + parallax
@@ -46,6 +46,8 @@ Deploy folder `dist/` ke Vercel, Netlify, atau hosting statis lain.
 - Render loop 3D berhenti saat hero keluar dari viewport; pixel ratio
   dibatasi 1.5 untuk layar HiDPI.
 - Font via Google Fonts dengan `preconnect` + `display=swap`.
+- Animasi reveal memakai CSS scroll-driven (`animation-timeline: view()`),
+  tanpa JavaScript. Browser lama langsung menampilkan konten tanpa animasi.
 
 ## Konten dinamis (Supabase)
 

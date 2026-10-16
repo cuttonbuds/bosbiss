@@ -39,8 +39,7 @@
   </script>
 
   <script>
-    // Mark JS as available (reveal animations only apply then) and apply the saved theme before paint.
-    document.documentElement.classList.add('js');
+    // Apply the saved theme before paint to avoid a flash.
     try {
       var t = localStorage.getItem('bb-theme');
       if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);

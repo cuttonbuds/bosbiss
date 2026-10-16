@@ -34,48 +34,6 @@ export function useTheme() {
   return [theme, toggle];
 }
 
-/** Adds .in to every .reveal element once it scrolls into view. */
-export function useReveal() {
-  useEffect(() => {
-    const els = Array.from(document.querySelectorAll('.reveal'));
-    const pending = new Set(els);
-    const show = (el) => { el.classList.add('in'); pending.delete(el); };
-
-    // Fallback used when IntersectionObserver is missing or silent (some embedded/hidden viewports).
-    const sweep = () => {
-      const vh = window.innerHeight;
-      pending.forEach((el) => {
-        const r = el.getBoundingClientRect();
-        if (r.bottom > 0 && r.top < vh * 0.96) show(el);
-      });
-      if (!pending.size) window.removeEventListener('scroll', sweep);
-    };
-
-    els.forEach((el, i) => { el.style.transitionDelay = `${(i % 4) * 60}ms`; });
-
-    let io = null;
-    if ('IntersectionObserver' in window) {
-      io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) { show(entry.target); io.unobserve(entry.target); }
-          });
-        },
-        { rootMargin: '0px 0px -8% 0px', threshold: 0.05 }
-      );
-      els.forEach((el) => io.observe(el));
-    }
-
-    const timer = setTimeout(sweep, 700);
-    window.addEventListener('scroll', sweep, { passive: true });
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('scroll', sweep);
-      if (io) io.disconnect();
-    };
-  }, []);
-}
-
 /** Returns the id of the section currently in the middle of the viewport. */
 export function useActiveSection(ids) {
   const [active, setActive] = useState('');
