@@ -6,6 +6,7 @@ import { PROFILE_FIELDS, COLLECTIONS } from './schema.js';
 import ProfileEditor from './ProfileEditor.jsx';
 import CollectionEditor from './CollectionEditor.jsx';
 import AuthForm from './AuthForm.jsx';
+import ErrorBoundary from './ErrorBoundary.jsx';
 import './admin.css';
 
 const TABS = [{ key: 'profile', label: 'Profile' }, ...COLLECTIONS.map((c) => ({ key: c.table, label: c.label }))];
@@ -77,11 +78,13 @@ export default function Admin() {
           </nav>
 
           <main className="admin-main">
-            {tab === 'profile' ? (
-              <ProfileEditor fields={PROFILE_FIELDS} />
-            ) : (
-              <CollectionEditor key={tab} config={COLLECTIONS.find((c) => c.table === tab)} />
-            )}
+            <ErrorBoundary resetKey={tab}>
+              {tab === 'profile' ? (
+                <ProfileEditor fields={PROFILE_FIELDS} />
+              ) : (
+                <CollectionEditor key={tab} config={COLLECTIONS.find((c) => c.table === tab)} />
+              )}
+            </ErrorBoundary>
           </main>
         </>
       )}

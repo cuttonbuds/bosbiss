@@ -61,7 +61,8 @@ export default function CollectionEditor({ config }) {
 
   if (!rows) return <p className="mono admin-note">Loading…</p>;
 
-  const form = (
+  // Only build the form when something is actually being edited (draft is null otherwise).
+  const form = draft ? (
     <form className="editor editor-inline" onSubmit={save}>
       {fields.map((f) => (
         <Field key={f.name} field={f} id={`${table}-${f.name}`} value={draft[f.name]} onChange={(v) => set(f.name, v)} />
@@ -71,7 +72,7 @@ export default function CollectionEditor({ config }) {
         <button className="btn btn-ghost" type="button" onClick={cancel}>Cancel</button>
       </div>
     </form>
-  );
+  ) : null;
 
   return (
     <div className="collection">
