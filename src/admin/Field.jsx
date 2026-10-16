@@ -1,37 +1,8 @@
-import { useState } from 'react';
-import { supabase } from '../lib/supabase.js';
+import { lazy, Suspense, useState } from 'react';
+import { uploadFile } from './upload.js';
 
-const BUCKET = 'media';
-
-const MAX_EDGE = 1600;
-
-/** Downscale large raster images in the browser and re-encode as WebP so the site stays fast. */
-async function optimizeImage(file) {
-  if (!file.type.startsWith('image/') || file.type === 'image/svg+xml' || file.type === 'image/gif') return file;
-  const bitmap = await createImageBitmap(file).catch(() => null);
-  if (!bitmap) return file;
-  const scale = Math.min(1, MAX_EDGE / Math.max(bitmap.width, bitmap.height));
-  const w = Math.round(bitmap.width * scale);
-  const h = Math.round(bitmap.height * scale);
-  const canvas = document.createElement('canvas');
-  canvas.width = w;
-  canvas.height = h;
-  canvas.getContext('2d').drawImage(bitmap, 0, 0, w, h);
-  bitmap.close();
-  const blob = await new Promise((res) => canvas.toBlob(res, 'image/webp', 0.84));
-  if (!blob || blob.size >= file.size) return file; // keep the original if WebP is not smaller
-  return new File([blob], file.name.replace(/\.[^.]+$/, '') + '.webp', { type: 'image/webp' });
-}
-
-/** Uploads to the public `media` bucket and returns the public URL. */
-async function uploadFile(rawFile, folder) {
-  const file = folder === 'images' ? await optimizeImage(rawFile) : rawFile;
-  const ext = (file.name.split('.').pop() || 'bin').toLowerCase().replace(/[^a-z0-9]/g, '');
-  const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-  const { error } = await supabase.storage.from(BUCKET).upload(path, file, { cacheControl: '31536000', upsert: false });
-  if (error) throw error;
-  return supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
-}
+// TipTap is only loaded when a rich text field is actually rendered.
+const RichEditor = lazy(() => import('./RichEditor.jsx'));
 
 function UploadControl({ id, value, onChange, accept, folder, preview }) {
   const [busy, setBusy] = useState(false);
@@ -68,7 +39,8 @@ function UploadControl({ id, value, onChange, accept, folder, preview }) {
 export default function Field({ field, value, onChange, id }) {
   const { name, label, type = 'text', hint, width } = field;
   const inputId = id || `f-${name}`;
-  const cls = `field${width === 'sm' ? ' field-sm' : ''}${type === 'image' || type === 'file' ? ' field-wide' : ''}`;
+  const wide = type === 'image' || type === 'file' || type === 'richtext';
+  const cls = `field${width === 'sm' ? ' field-sm' : ''}${wide ? ' field-wide' : ''}`;
 
   if (type === 'bool') {
     return (
@@ -82,6 +54,12 @@ export default function Field({ field, value, onChange, id }) {
   let control;
   if (type === 'textarea') {
     control = <textarea id={inputId} rows={3} value={value ?? ''} onChange={(e) => onChange(e.target.value)} />;
+  } else if (type === 'richtext') {
+    control = (
+      <Suspense fallback={<p className="mono admin-note">Loading editor…</p>}>
+        <RichEditor id={inputId} value={value ?? ''} onChange={onChange} />
+      </Suspense>
+    );
   } else if (type === 'tags') {
     control = (
       <input

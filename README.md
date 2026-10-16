@@ -18,6 +18,9 @@ src/components/Logo3D.jsx  logo 3D: path SVG diekstrusi jadi mesh, animasi + par
 src/components/Hero.jsx    hero; memuat Logo3D secara lazy
 src/components/Sections.jsx About, What I do, Products, Projects, Articles, Contact
 src/components/Nav.jsx, Stem.jsx, Footer.jsx
+src/pages/ArticlePage.jsx  halaman /articles (daftar) dan /articles/:slug (isi artikel)
+src/lib/articles.js        fetch artikel lewat PostgREST (tanpa SDK)
+src/admin/RichEditor.jsx   rich text editor (TipTap) untuk isi artikel, dimuat lazy
 src/lib/config.js          URL + publishable key Supabase
 src/lib/useSiteContent.js  fetch konten live (1 RPC) + cache localStorage
 src/lib/supabase.js        client supabase-js (hanya dipakai dashboard)
@@ -61,7 +64,7 @@ Tabel di schema `public`:
 | `services` | kartu "What I do" (key, title, description) |
 | `products` | produk digital (title, description, price_label, url) |
 | `projects` | proyek (title, image_url, description, details/case study, tags[], year, url) |
-| `articles` | tulisan (title, description, url, published_on) |
+| `articles` | tulisan (title, slug, description, cover_url, content HTML dari rich editor, url eksternal opsional, published_on) |
 | `testimonials` | testimoni klien (quote, author, role) |
 | `social_links` | tautan sosial (label, url) |
 | `admins` | daftar email yang boleh mengedit |
@@ -91,6 +94,10 @@ Supabase Dashboard → Authentication → Users → **Add user** (centang
 2. Tab: Profile, What I do, Products, Projects, Articles, Testimonials, Social.
    Foto profil, thumbnail proyek, dan CV bisa diunggah langsung dari form
    (tersimpan di Storage bucket `media`, publik baca, admin tulis).
+   Artikel ditulis dengan rich editor (heading, list, quote, kode, link,
+   gambar upload). Artikel yang punya isi tampil di `/articles/<slug>`;
+   slug dibuat otomatis dari judul. Artikel tanpa isi memakai link eksternal.
+   HTML artikel disanitasi dengan DOMPurify saat dirender.
 3. Untuk menambah admin lain: buat user-nya di Supabase, lalu
    `insert into public.admins (email) values ('...')`.
 4. Disarankan matikan *Allow new users to sign up* di

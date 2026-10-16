@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase.js';
 import Field from './Field.jsx';
 import { blankRow } from './schema.js';
+import { slugify } from './upload.js';
 
 export default function CollectionEditor({ config }) {
   const { table, label, fields, titleField } = config;
@@ -35,6 +36,7 @@ export default function CollectionEditor({ config }) {
     setBusy(true);
     setMsg(null);
     const { id, created_at, updated_at, ...payload } = draft; // eslint-disable-line no-unused-vars
+    if ('slug' in payload) payload.slug = slugify(payload.slug || payload[titleField]);
     const q = open === 'new'
       ? supabase.from(table).insert(payload)
       : supabase.from(table).update(payload).eq('id', id);
@@ -92,7 +94,12 @@ export default function CollectionEditor({ config }) {
             {open === row.id ? form : (
               <div className="row-line">
                 <span className="mono row-order">{String(row.sort_order ?? 0).padStart(2, '0')}</span>
-                <span className="row-title">{row[titleField]}</span>
+                <span className="row-title">
+                  {row[titleField]}
+                  {table === 'articles' && row.slug && row.content && (
+                    <a className="mono row-link" href={`/articles/${row.slug}`} target="_blank" rel="noopener">View ↗</a>
+                  )}
+                </span>
                 {!row.published && <span className="mono tag">draft</span>}
                 <span className="row-actions">
                   <button className="btn btn-ghost" type="button" onClick={() => togglePublished(row)}>

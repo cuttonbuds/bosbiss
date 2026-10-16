@@ -3,11 +3,11 @@
 // RPC and is mapped into this same shape by `fromDb`.
 
 export const nav = [
-  { href: '#about', label: 'About' },
-  { href: '#products', label: 'Products' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#articles', label: 'Articles' },
-  { href: '#contact', label: 'Contact' },
+  { href: '/#about', label: 'About' },
+  { href: '/#products', label: 'Products' },
+  { href: '/#projects', label: 'Projects' },
+  { href: '/articles', label: 'Articles' },
+  { href: '/#contact', label: 'Contact' },
 ];
 
 export const staticContent = {
@@ -114,9 +114,13 @@ export function fromDb(json) {
     },
     articles: {
       lede: p.articles_lede || '',
-      items: (json.articles || []).map((r) => ({
-        date: fmtDate(r.published_on), title: r.title, desc: r.description, href: r.url,
-      })),
+      items: (json.articles || []).map((r) => {
+        const internal = !!(r.has_content && r.slug);
+        return {
+          date: fmtDate(r.published_on), title: r.title, desc: r.description,
+          href: internal ? `/articles/${r.slug}` : r.url, internal,
+        };
+      }),
     },
     testimonials: (json.testimonials || []).map((r) => ({ quote: r.quote, author: r.author, role: r.role || '' })),
     contact: {

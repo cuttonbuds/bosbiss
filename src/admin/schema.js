@@ -80,8 +80,11 @@ export const COLLECTIONS = [
     table: 'articles', label: 'Articles', titleField: 'title',
     fields: [
       { name: 'title', label: 'Title' },
-      { name: 'description', label: 'Summary', type: 'textarea' },
-      { name: 'url', label: 'Link' },
+      { name: 'slug', label: 'Slug', hint: 'URL path: /articles/<slug>. Generated from the title if left empty' },
+      { name: 'description', label: 'Summary', type: 'textarea', hint: 'Shown in the list and as the meta description' },
+      { name: 'cover_url', label: 'Cover image', type: 'image', hint: 'Optional, 16:9 works best' },
+      { name: 'content', label: 'Article', type: 'richtext' },
+      { name: 'url', label: 'External link (optional)', hint: 'Only used when the article has no content above' },
       { name: 'published_on', label: 'Published on', type: 'date', width: 'sm' },
       ...common,
     ],

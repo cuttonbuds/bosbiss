@@ -4,10 +4,12 @@ import App from './App.jsx';
 import Mark from './components/Mark.jsx';
 import './styles.css';
 
-// /admin is a separate, lazily loaded bundle (supabase-js lives only there).
+// Minimal router: /, /articles, /articles/:slug, /admin. Everything else is a 404.
 const path = window.location.pathname.replace(/\/+$/, '') || '/';
-const isAdmin = /^\/admin(\/|$)/.test(path);
 const Admin = lazy(() => import('./admin/Admin.jsx'));
+const ArticlePage = lazy(() => import('./pages/ArticlePage.jsx'));
+
+const loading = <p className="mono" style={{ padding: 24 }}>Loading…</p>;
 
 function NotFound() {
   return (
@@ -22,12 +24,15 @@ function NotFound() {
 }
 
 let view;
-if (isAdmin) {
-  view = (
-    <Suspense fallback={<p className="mono" style={{ padding: 24 }}>Loading dashboard…</p>}>
-      <Admin />
-    </Suspense>
-  );
+const articleMatch = path.match(/^\/articles(?:\/([a-z0-9-]+))?$/);
+if (import.meta.env.DEV && path === '/__editor') {
+  // Dev-only harness for the rich text editor (not part of production builds).
+  const EditorHarness = lazy(() => import('./admin/EditorHarness.jsx'));
+  view = <Suspense fallback={loading}><EditorHarness /></Suspense>;
+} else if (/^\/admin(\/|$)/.test(path)) {
+  view = <Suspense fallback={loading}><Admin /></Suspense>;
+} else if (articleMatch) {
+  view = <Suspense fallback={loading}><ArticlePage slug={articleMatch[1] || ''} /></Suspense>;
 } else if (path === '/') {
   view = <App />;
 } else {

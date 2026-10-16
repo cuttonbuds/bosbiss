@@ -164,7 +164,7 @@ export function Articles() {
       <ul className="posts">
         {articles.items.map((a) => (
           <li key={a.href + a.title} className="reveal">
-            <a href={a.href || '#'} className="post" target="_blank" rel="noopener">
+            <a href={a.href || '#'} className="post" target={a.internal ? undefined : '_blank'} rel={a.internal ? undefined : 'noopener'}>
               <span className="mono post-date">{a.date}</span>
               <span className="post-main">
                 <span className="post-title">{a.title}</span>
@@ -174,6 +174,9 @@ export function Articles() {
           </li>
         ))}
       </ul>
+      {articles.items.some((a) => a.internal) && (
+        <p className="section-more reveal"><a className="mono link-btn-a" href="/articles">All articles →</a></p>
+      )}
     </section>
   );
 }
